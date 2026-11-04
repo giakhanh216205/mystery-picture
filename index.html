@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Mystery Picture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Montserrat:wght@500;600;700;800&family=Dancing+Script:wght@600;700&display=swap&subset=vietnamese">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="board" id="board">
+  <img class="deco bud" src="images/lotus-bud.png" alt="">
+  <img class="deco lotus" src="images/lotus.png" alt="">
+  <div class="top">
+    <div class="brand">
+      <div class="script">Guessing our team's topic</div>
+      <h1>THE MYSTERY PICTURE</h1>
+    </div>
+    <div class="tools">
+      <label class="tool" title="Countdown length">TIMER
+        <select id="dur" aria-label="Countdown length"><option value="15" selected>15s</option><option value="20">20s</option><option value="30">30s</option></select>
+      </label>
+      <button class="tool on" id="snd" type="button" aria-pressed="true">SOUND ON</button>
+      <button class="tool" id="fs" type="button">FULL SCREEN</button>
+      <button class="tool" id="reset" type="button">RESET</button>
+    </div>
+  </div>
+  <div class="main">
+    <div>
+      <div class="rows" id="rows"></div>
+      <div class="key">
+        <div class="lab">SECRET TOPIC · 2 WORDS · 5 LETTERS</div>
+        <div class="kb"><i>?</i><i>?</i><i class="sp"></i><i>?</i><i>?</i><i>?</i></div>
+      </div>
+    </div>
+    <div class="picwrap">
+      <div class="pic"><div class="grid" id="grid"></div></div>
+      <div class="picnote">
+        <span class="script" id="picmsg">Pick any tile to begin!</span>
+        <button class="btn red" id="revealBtn" type="button">REVEAL THE TOPIC</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="screen start" id="start">
+  <img class="deco leaf" src="images/leaf.png" alt="">
+  <img class="deco lotus" src="images/lotus.png" alt="">
+  <div class="center">
+    <div class="qhead" style="justify-content:center"><span class="hint">Guessing our team's topic</span></div>
+    <h2 class="big">THE MYSTERY PICTURE</h2>
+    <div class="rules">
+      <div><b>1</b>A picture of our topic is hidden behind 7 numbered tiles.</div>
+      <div><b>2</b>Choose any tile. Answer its question before the timer runs out.</div>
+      <div><b>3</b>After the answer is shown, that piece of the picture opens.</div>
+      <div><b>4</b>Two tiles are LUCKY NUMBERS: a free prize, no question needed!</div>
+      <div><b>5</b>Raise your hand to guess the topic at any time. A wrong guess loses your turn!</div>
+    </div>
+    <button class="btn gold" id="go" type="button" style="font-size:clamp(16px,1.6vw,22px);padding:14px 40px">START</button>
+    <div class="keys">Shortcuts: <kbd>1</kbd>–<kbd>7</kbd> open a tile · <kbd>Space</kbd> pause timer · <kbd>Enter</kbd> next step · <kbd>Esc</kbd> back</div>
+  </div>
+</div>
+
+<div class="screen" id="qs" hidden>
+  <img class="deco leaf" src="images/leaf.png" alt="">
+  <img class="deco lotus" src="images/lotus.png" alt="">
+  <div class="qhead">
+    <div class="qnum" id="qnum">1</div>
+    <div><div class="eyebrow" id="qeye">TILE 1 OF 7</div><div class="hint" id="qhint">Hint</div></div>
+  </div>
+  <div class="qbody">
+    <div class="card" id="qcard"></div>
+    <div class="timer" id="timerBox">
+      <button class="ring" id="ring" type="button" aria-label="Start or pause the countdown">
+        <svg viewBox="0 0 100 100"><circle class="trk" cx="50" cy="50" r="44"/><circle class="bar" id="bar" cx="50" cy="50" r="44"/></svg>
+        <div class="read"><div class="sec" id="sec">15</div><div class="unit" id="unit">SECONDS</div></div>
+      </button>
+      <div class="tctl"><button type="button" id="tPause">PAUSE</button><button type="button" id="tRestart">RESTART</button></div>
+    </div>
+    <div class="opened" id="openedBox" hidden>TILE<b id="openedNum">1</b>OPENS!</div>
+  </div>
+  <div class="ans">
+    <div class="lab" id="alab">THE ANSWER HAS 4 LETTERS</div>
+    <div class="abox" id="abox"></div>
+    <div class="vi" id="avi"></div>
+  </div>
+  <div class="qfoot">
+    <span class="script" id="qmsg">Raise your hand to answer!</span>
+    <div class="acts">
+      <button class="btn ghost" id="qBack" type="button">BACK</button>
+      <button class="btn gold" id="qNext" type="button">SHOW ANSWER</button>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="ls" hidden>
+  <img class="deco leaf" src="images/leaf.png" alt="">
+  <img class="deco lotus" src="images/lotus.png" alt="">
+  <div class="center">
+    <div class="star">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><polygon id="starPoly" fill="#d9a84e" stroke="#f3d68e" stroke-width="1"/></svg>
+      <b id="lnum">5</b>
+    </div>
+    <h2 class="big">LUCKY NUMBER!</h2>
+    <p class="lead">Congratulations! You have won a prize without having to answer a question.</p>
+    <button class="btn gold" id="lOpen" type="button">OPEN TILE 5</button>
+  </div>
+</div>
+
+<div class="screen" id="fsn" hidden>
+  <img class="deco leaf" src="images/leaf.png" alt="">
+  <div class="final">
+    <div>
+      <div class="script">And our topic is...</div>
+      <div class="kfinal" id="kfinal"></div>
+      <h3>THE 2000-YEAR HISTORY OF AO DAI</h3>
+      <div class="clues">Silk · Lotus · Conical hat · Five-panel gown · Tô Ngọc Vân</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
+        <button class="btn gold" id="fConf" type="button">CONGRATULATIONS!</button>
+        <button class="btn ghost" id="fBack" type="button">BACK TO BOARD</button>
+      </div>
+    </div>
+    <div class="pic2" role="img" aria-label="The full hidden picture: an ao dai"></div>
+  </div>
+</div>
+
+<div class="confirm" id="confirm" hidden>
+  <span>Start a new game? All tiles will close again.</span>
+  <button class="btn gold" id="cYes" type="button">RESET</button>
+  <button class="btn ghost" id="cNo" type="button" style="color:var(--cream)">CANCEL</button>
+</div>
+
+<canvas id="fx"></canvas>
+
+<script src="js/game.js"></script>
+</body>
+</html>
